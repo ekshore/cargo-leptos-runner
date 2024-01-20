@@ -3,13 +3,11 @@ name: Build Runner Image
 on:
   workflow_dispatch:
     inputs:
-      toolchain:
+      environment:
+        type: environment
         required: true
-        default: stable
-        type: choice
-        options:
-          - stable
-          - nightly
+        description: Toolchain environment to build
+
 permissions:
   packages: write
 
