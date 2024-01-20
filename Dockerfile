@@ -8,12 +8,6 @@ RUN apt-get install -y \
     libssl-dev \
     curl
 
-# RUN useradd -m github
-# RUN usermod -aG root github
-# USER github
-
-# WORKDIR /github/home
-
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/home/github/.cargo/bin:${PATH}"
 ENV PATH="/root/.cargo/bin:${PATH}"
