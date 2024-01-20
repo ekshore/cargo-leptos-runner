@@ -1,0 +1,31 @@
+name: Build Runner Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      toolchain:
+        required: true
+        default: stable
+        type: choice
+        options:
+          - stable
+          - nightly
+permissions:
+  packages: write
+
+jobs:
+  build-image:
+    name: Build Image
+    runs-on: unbutu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: docker build . \
+          -t cargo-leptos-runner-{{ inputs.toolchain }} \
+          --build-arg="TOOLCHAIN={{ inputs.toolchain }}"
+      - name: Tag
+        run: docker tag cargo-leptos-runner-{{ inputs.toolchain }} \
+          ghcr.io/ekshore/cargo-leptos-runner-{{ inputs.toolchain}}
+      - name: Push
+        run: docker push ghcr.io/ekshore/cargo-leptos-runner-{{ inputs.toolchain }}
