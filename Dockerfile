@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+ARG TOOLCHAIN="stable"
+
 RUN apt-get update -y
 
 RUN apt-get install -y \
@@ -13,13 +15,11 @@ ENV PATH="/home/github/.cargo/bin:${PATH}"
 ENV PATH="/root/.cargo/bin:${PATH}"
 ENV RUSTUP_HOME "/root/.rustup"
 
-RUN rustup install stable
-RUN rustup install nightly
-RUN rustup default nightly
+RUN rustup install ${TOOLCHAIN}
+#RUN rustup install nightly
+RUN rustup default ${TOOLCHAIN}
 
-RUN rustup target add --toolchain nightly wasm32-unknown-unknown
-RUN rustup target add --toolchain stable wasm32-unknown-unknown
-
-RUN ls /root/.rustup/toolchains
+#RUN rustup target add --toolchain nightly wasm32-unknown-unknown
+RUN rustup target add --toolchain ${TOOLCHAIN} wasm32-unknown-unknown
 
 RUN cargo install cargo-leptos
