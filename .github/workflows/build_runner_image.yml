@@ -9,22 +9,41 @@ on:
         description: Toolchain environment to build
         default: stable
 
-permissions:
-  packages: write
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: cargo-leptos-runner-${{ inputs.environment }}
 
 jobs:
   build-image:
     name: Build Image
     runs-on: unbutu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Build
-        run: docker build . \
-          -t cargo-leptos-runner-{{ inputs.toolchain }} \
-          --build-arg="TOOLCHAIN={{ inputs.toolchain }}"
-      - name: Tag
-        run: docker tag cargo-leptos-runner-{{ inputs.toolchain }} \
-          ghcr.io/ekshore/cargo-leptos-runner-{{ inputs.toolchain}}
-      - name: Push
-        run: docker push ghcr.io/ekshore/cargo-leptos-runner-{{ inputs.toolchain }}
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGIRSTRY }}/ekshore/${{ env.IMAGE_NAME }}
+
+      - name: Log into container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          build-args:
+            - "TOOLCHAIN=${{ inputs.environment }}"
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.lables }}
