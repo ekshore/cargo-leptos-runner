@@ -31,7 +31,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGIRSTRY }}/ekshore/${{ env.IMAGE_NAME }}:latest
-          tages: ekshore/${{ env.IMAGE_NAME }}:latest
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
 
 
       - name: Log into container registry
