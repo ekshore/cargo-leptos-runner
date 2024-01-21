@@ -2,6 +2,8 @@ FROM ubuntu:22.04
 
 ARG TOOLCHAIN="stable"
 
+LABEL org.opencontainers.image.source="https://github.com/OWNER/REPO"
+
 RUN apt-get update -y
 
 RUN apt-get install -y \
