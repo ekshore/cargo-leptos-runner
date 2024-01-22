@@ -8,6 +8,11 @@ on:
         required: true
         description: Toolchain environment to build
         default: stable
+      version:
+        type: string
+        required: true
+        description: Version tag to use on this release
+
   workflow_call:
     inputs:
       environment:
@@ -15,10 +20,10 @@ on:
         required: true
         description: Toolchain environment to build
         default: stable
-      nightly-version:
+      version:
         type: string
-        required: false
-        description: If nightly git hash
+        required: true
+        description: Version tag to use on this release
 
 env:
   REGISTRY: ghcr.io
