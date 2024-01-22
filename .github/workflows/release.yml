@@ -16,6 +16,20 @@ jobs:
       run: rustup update
     - name: Install ${{ matrix.channel }}
       run: rustup toolchain install ${{ matrix.channel }}
+    - name: Retrieve ${{ matrix.channel }} version
+      run: |
+        PATTERN=""
+        if ${{ matrix.channel }} == "stable"; then
+          PATTERN='[0-9]+\.[0-9]+\.[0-9]+'
+        else
+          PATTERN='[0-9]+\.[0-9]+\.[0-9]+-${{ matrix.channel }}'
+        fi
+        {
+          echo 'VERSION<<EOF'
+          rustup +toolchain check | \
+            grep '${{ matrix.channel }}' | \
+            grep -E $PATTERN
+        } >> "$GITHUB_ENV"
     - name: Retrieve Stable version
       if: ${{ matrix.channel }} == "stable"
       run: |
@@ -27,6 +41,7 @@ jobs:
           echo 'EOF'
         } >> "$GITHUB_ENV"
     - name: Retrieve nightly version
+      if: ${ matrix.channel }} == "nightly"
       run: |
         {
           echo 'NIGHTLY_VERSION<<EOF'
@@ -34,10 +49,10 @@ jobs:
             grep -E '[0-9]+\.[0-9]+\.[0-9]+-nightly' -o
           echo 'EOF'
         } >> "$GITHUB_ENV"
-    - name: Retreive ngithly commit
+    - name: Retreive ${{ matrix.channel }} commit
       run: |
         {
-          echo 'NIGHTLY_COMMIT<<EOF'
+          echo 'COMMIT<<EOF'
           rustup +toolchain check | \
             grep 'nightly' | \
             grep -E '[a-f0-9]{9}' -o
