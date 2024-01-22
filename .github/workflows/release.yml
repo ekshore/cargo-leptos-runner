@@ -43,3 +43,16 @@ jobs:
     - name: Print versioning info
       run: printf 'Stable Version %s\nNightly version %s [%s]\n' "$STABLE_VERSION" "$NIGHTLY_VERSION" "$NIGHTLY_COMMIT"
 
+    - name: Checkout
+      uses: actions/checkout@v5
+      with:
+       fetch-depth: 0
+
+    - name: Start stable release
+      run: |
+        TAG="$STABLE_VERSION"
+        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
+          echo "Version already exists no release needed"
+        else
+          echo "New stable version available, starting release"
+        fi
