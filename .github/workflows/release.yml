@@ -41,6 +41,5 @@ jobs:
         } >> "$GITHUB_ENV"
 
     - name: Print versioning info
-      run: printf 'Stable Version %s/n' "$STABLE_VERSION"
-      run: printf 'Nightly version %s [%s]' "$NIGHTLY_VERSION" "$NIGHTLY_COMMIT"
+      run: printf 'Stable Version %s/nNightly version %s [%s]\n' "$STABLE_VERSION" "$NIGHTLY_VERSION" "$NIGHTLY_COMMIT"
 
