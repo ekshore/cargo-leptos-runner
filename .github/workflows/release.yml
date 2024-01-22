@@ -11,9 +11,9 @@ jobs:
       matrix:
         channel: [ stable, nightly ]
         include:
-          - stable:
+          - channel: stable
             version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
-          - nightly:
+          - channel: nightly
             version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
 
     steps:
