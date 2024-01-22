@@ -1,0 +1,46 @@
+name: Build images for releases
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-versions:
+    name: Check Versions
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Update Rust toolchain
+      run: rustup update
+    - name: Add nightly
+      run: rustup toolchain install nightly
+    - name: Retrieve stable version
+      run: |
+        {
+          echo 'STABLE_VERSION<<EOF'
+          rustup +toolchain check | \
+            grep 'stable' | \
+            grep -E '[0-9]+\.[0-9]+\.[0-9]+' -o
+          echo 'EOF'
+        } >> "$GITHUB_ENV"
+    - name: Retrieve nightly version
+      run: |
+        {
+          echo 'NIGHTLY_VERSION<<EOF'
+          rustup +toolchain check | \
+            grep -E '[0-9]+\.[0-9]+\.[0-9]+-nightly' -o
+          echo 'EOF'
+        } >> "$GITHUB_ENV"
+    - name: Retreive ngithly commit
+      run: |
+        {
+          echo 'NIGHTLY_COMMIT<<EOF'
+          rustup +toolchain check | \
+            grep 'nightly' | \
+            grep -E '[a-f0-9]{9}' -o
+          echo 'EOF'
+        } >> "$GITHUB_ENV"
+
+    - name: Print versioning info
+      run: printf 'Stable Version %s/n' "$STABLE_VERSION"
+      run: printf 'Nightly version %s [%s]' "$NIGHTLY_VERSION" "$NIGHTLY_COMMIT"
+
