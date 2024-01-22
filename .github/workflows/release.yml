@@ -24,6 +24,7 @@ jobs:
         else
           PATTERN='[0-9]+\.[0-9]+\.[0-9]+-${{ matrix.channel }}'
         fi
+        echo $PATTERN
         {
           echo 'VERSION<<EOF'
           rustup +toolchain check | \
