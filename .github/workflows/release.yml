@@ -7,13 +7,17 @@ jobs:
   check-versions:
     name: Check Versions
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        channel: [ stable, nightly ]
 
     steps:
     - name: Update rust toolchain
       run: rustup update
-    - name: Add nightly
-      run: rustup toolchain install nightly
-    - name: Retrieve stable version
+    - name: Install ${{ matrix.channel }}
+      run: rustup toolchain install ${{ matrix.channel }}
+    - name: Retrieve Stable version
+      if: ${{ matrix.channel == stable }}
       run: |
         {
           echo 'STABLE_VERSION<<EOF'
