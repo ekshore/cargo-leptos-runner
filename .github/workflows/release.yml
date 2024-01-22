@@ -27,7 +27,7 @@ jobs:
           echo 'VERSION<<EOF'
           rustup +toolchain check | \
             grep '${{ matrix.channel }}' | \
-            grep -E '${{ matrix.version_pattern }}'
+            grep -E '${{ matrix.version_pattern }}' -o
           echo 'EOF'
         } >> "$GITHUB_ENV"
     - name: Retreive ${{ matrix.channel }} commit
