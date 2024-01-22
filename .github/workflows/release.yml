@@ -19,7 +19,7 @@ jobs:
     - name: Retrieve ${{ matrix.channel }} version
       run: |
         PATTERN=""
-        if ${{ matrix.channel }} == "stable"; then
+        if ${{ matrix.channel }} == stable; then
           PATTERN='[0-9]+\.[0-9]+\.[0-9]+'
         else
           PATTERN='[0-9]+\.[0-9]+\.[0-9]+-${{ matrix.channel }}'
