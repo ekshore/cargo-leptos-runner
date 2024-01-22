@@ -61,5 +61,5 @@ jobs:
         if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
           echo "Version already exists no release needed"
         else
-          echo "New stable version available, starting release for ${TAG}"
+          echo "New ${{ matrix.channel }} version available, starting release for ${TAG}"
         fi
