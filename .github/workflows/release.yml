@@ -63,21 +63,3 @@ jobs:
         else
           echo "New stable version available, starting release for ${TAG}"
         fi
-
-    - name: Start stable release
-      run: |
-        TAG="v$STABLE_VERSION"
-        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
-          echo "Version already exists no release needed"
-        else
-          echo "New stable version available, starting release for ${TAG}"
-        fi
-
-    - name: Start nightly release
-      run: |
-        TAG="v$NIGHTLY_VERSION-$NIGHTLY_COMMIT"
-        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
-          echo "Version already exists no release needed"
-        else
-          echo "New nightly version available, starting release for ${TAG}"
-        fi
