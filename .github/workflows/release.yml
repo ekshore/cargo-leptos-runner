@@ -8,8 +8,8 @@ jobs:
     name: Check Versions
     runs-on: ubuntu-latest
 
-  steps:
-    - name: Update Rust toolchain
+    steps:
+    - name: Update rust toolchain
       run: rustup update
     - name: Add nightly
       run: rustup toolchain install nightly
