@@ -35,7 +35,7 @@ jobs:
         {
           echo 'COMMIT<<EOF'
           rustup +toolchain check | \
-            grep 'nightly' | \
+            grep '${{ matrix.channel }}' | \
             grep -E '[a-f0-9]{9}' -o
           echo 'EOF'
         } >> "$GITHUB_ENV"
