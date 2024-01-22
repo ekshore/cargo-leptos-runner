@@ -19,8 +19,10 @@ jobs:
     steps:
     - name: Update rust toolchain
       run: rustup update
+
     - name: Install ${{ matrix.channel }}
       run: rustup toolchain install ${{ matrix.channel }}
+
     - name: Retrieve ${{ matrix.channel }} version
       run: |
         {
@@ -30,6 +32,7 @@ jobs:
             grep -E '${{ matrix.version_pattern }}' -o
           echo 'EOF'
         } >> "$GITHUB_ENV"
+
     - name: Retreive ${{ matrix.channel }} commit
       run: |
         {
@@ -47,6 +50,19 @@ jobs:
       uses: actions/checkout@v4
       with:
        fetch-depth: 0
+
+    - name: Start ${{ matrix.channel }} release
+      run: |
+        if "${{ matrix.channel }}" == "stable"; then
+          TAG="v${VERSION}"
+        else 
+          TAG="v${VERSION}-${COMMIT}"
+        fi
+        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
+          echo "Version already exists no release needed"
+        else
+          echo "New stable version available, starting release for ${TAG}"
+        fi
 
     - name: Start stable release
       run: |
