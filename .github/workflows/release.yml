@@ -53,7 +53,7 @@ jobs:
 
     - name: Start ${{ matrix.channel }} release
       run: |
-        if [ "${{ matrix.channel }}"="stable" ]; then
+        if [ "${{ matrix.channel }}" = "stable" ]; then
           TAG="v${VERSION}"
         else 
           TAG="v${VERSION}-${COMMIT}"
