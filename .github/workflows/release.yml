@@ -29,6 +29,7 @@ jobs:
           rustup +toolchain check | \
             grep '${{ matrix.channel }}' | \
             grep -E $PATTERN
+          echo 'EOF'
         } >> "$GITHUB_ENV"
     - name: Retrieve Stable version
       if: ${{ matrix.channel }} == "stable"
