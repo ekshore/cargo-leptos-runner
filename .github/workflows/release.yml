@@ -10,8 +10,9 @@ jobs:
     strategy:
       matrix:
         channel: [ stable, nightly ]
-        version_pattern: ['[0-9]+\.[0-9]+\.[0-9]+']
         include:
+          - stable:
+            version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
           - nightly:
             version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
 
@@ -29,25 +30,6 @@ jobs:
             grep -E '${{ matrix.version_pattern }}'
           echo 'EOF'
         } >> "$GITHUB_ENV"
-    - name: Retrieve Stable version
-      if: ${{ matrix.channel }} == "stable"
-      run: |
-        {
-          echo 'STABLE_VERSION<<EOF'
-          rustup +toolchain check | \
-            grep 'stable' | \
-            grep -E '[0-9]+\.[0-9]+\.[0-9]+' -o
-          echo 'EOF'
-        } >> "$GITHUB_ENV"
-    - name: Retrieve nightly version
-      if: ${{ matrix.channel }} == "nightly"
-      run: |
-        {
-          echo 'NIGHTLY_VERSION<<EOF'
-          rustup +toolchain check | \
-            grep -E '[0-9]+\.[0-9]+\.[0-9]+-nightly' -o
-          echo 'EOF'
-        } >> "$GITHUB_ENV"
     - name: Retreive ${{ matrix.channel }} commit
       run: |
         {
@@ -59,7 +41,7 @@ jobs:
         } >> "$GITHUB_ENV"
 
     - name: Print versioning info
-      run: printf 'Stable Version %s\nNightly version %s [%s]\n' "$STABLE_VERSION" "$NIGHTLY_VERSION" "$NIGHTLY_COMMIT"
+      run: printf 'Version %s [%s]\n' "$VERSION" "$COMMIT"
 
     - name: Checkout
       uses: actions/checkout@v4
