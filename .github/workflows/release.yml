@@ -41,7 +41,7 @@ jobs:
           echo 'EOF'
         } >> "$GITHUB_ENV"
     - name: Retrieve nightly version
-      if: ${ matrix.channel }} == "nightly"
+      if: ${{ matrix.channel }} == "nightly"
       run: |
         {
           echo 'NIGHTLY_VERSION<<EOF'
