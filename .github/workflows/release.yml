@@ -44,7 +44,7 @@ jobs:
       run: printf 'Stable Version %s\nNightly version %s [%s]\n' "$STABLE_VERSION" "$NIGHTLY_VERSION" "$NIGHTLY_COMMIT"
 
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v4
       with:
        fetch-depth: 0
 
