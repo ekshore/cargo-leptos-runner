@@ -10,10 +10,10 @@ jobs:
     strategy:
       matrix:
         channel: [ stable, nightly ]
-        version_pattern: ['[0-9]+\.[0-9]+\.[0-9]+-${{ matrix.channel }}']
+        version_pattern: ['[0-9]+\.[0-9]+\.[0-9]+']
         include:
-          - stable:
-            version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
+          - nightly:
+            version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
 
     steps:
     - name: Update rust toolchain
