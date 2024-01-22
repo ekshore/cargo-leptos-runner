@@ -17,7 +17,7 @@ jobs:
     - name: Install ${{ matrix.channel }}
       run: rustup toolchain install ${{ matrix.channel }}
     - name: Retrieve Stable version
-      if: ${{ matrix.channel == stable }}
+      if: ${{ matrix.channel == "stable" }}
       run: |
         {
           echo 'STABLE_VERSION<<EOF'
