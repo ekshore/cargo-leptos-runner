@@ -10,6 +10,10 @@ jobs:
     strategy:
       matrix:
         channel: [ stable, nightly ]
+        version_pattern: ['[0-9]+\.[0-9]+\.[0-9]+-${{ matrix.channel }}']
+        include:
+          - stable:
+            version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
     steps:
     - name: Update rust toolchain
@@ -18,18 +22,11 @@ jobs:
       run: rustup toolchain install ${{ matrix.channel }}
     - name: Retrieve ${{ matrix.channel }} version
       run: |
-        PATTERN=""
-        if ${{ matrix.channel }} == stable; then
-          PATTERN='[0-9]+\.[0-9]+\.[0-9]+'
-        else
-          PATTERN='[0-9]+\.[0-9]+\.[0-9]+-${{ matrix.channel }}'
-        fi
-        echo $PATTERN
         {
           echo 'VERSION<<EOF'
           rustup +toolchain check | \
             grep '${{ matrix.channel }}' | \
-            grep -E $PATTERN
+            grep -E '${{ matrix.version_pattern }}'
           echo 'EOF'
         } >> "$GITHUB_ENV"
     - name: Retrieve Stable version
