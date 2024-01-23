@@ -71,7 +71,7 @@ jobs:
         fi
 
     - name: Release
-      if: ${{ steps.checkTag.outputs.RELEASE }} != true
+      if: ${{ steps.checkTag.outputs.RELEASE != true }}
       run: | 
         echo "Does this even work ${{ steps.checkTag.outputs.RELEASE }}"
         echo "Release version $TAG"
