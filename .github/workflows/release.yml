@@ -59,8 +59,19 @@ jobs:
           echo "TAG=v${VERSION}-${COMMIT}" >> "$GITHUB_ENV"
         fi
        
+    - name: Check for tag
+      id: checkTag
+      run: |
+        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
+          echo "Version already exists no release needed"
+          echo "RELEASE=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "New version available, starting release for ${TAG}"
+          echo "RELEASE=true" >> "$GITHUB_OUTPUT"
+        fi
+
     - name: Release
-      if: git show-ref --tags --verify --quiet "refs/tags/${TAG}";
+      if: ${{ steps.checkTag.outputs.RELEASE }}
       run: echo "Release version $TAG"
       # uses: softprops/action-gh-release@v1
       # run: |
