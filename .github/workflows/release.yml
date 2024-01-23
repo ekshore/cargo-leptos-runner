@@ -43,9 +43,6 @@ jobs:
           echo 'EOF'
         } >> "$GITHUB_ENV"
 
-    - name: Print versioning info
-      run: printf 'Version %s [%s]\n' "$VERSION" "$COMMIT"
-
     - name: Checkout
       uses: actions/checkout@v4
       with:
