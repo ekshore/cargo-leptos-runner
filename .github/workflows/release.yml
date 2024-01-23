@@ -5,6 +5,7 @@ on:
 
 jobs:
   check-versions:
+    id: checkVersion
     name: Check Versions
     runs-on: ubuntu-latest
     strategy:
