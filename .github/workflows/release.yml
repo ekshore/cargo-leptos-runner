@@ -79,6 +79,6 @@ jobs:
     if: ${{ jobs.checkVersion.outputs.RELEASE }} == true
     runs-on: ubuntu-latest
 
-  steps: 
+    steps:
     - name: Checkout
       use: actions/checkout@v4
