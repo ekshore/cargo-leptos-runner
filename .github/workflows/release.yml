@@ -54,9 +54,9 @@ jobs:
     - name: Start ${{ matrix.channel }} release
       run: |
         if [ ${{ matrix.channel }} = stable ]; then
-          TAG="v${VERSION}"
+          "TAG=v${VERSION}" >> "$GITHUB_ENV"
         else 
-          TAG="v${VERSION}-${COMMIT}"
+          "TAG=v${VERSION}-${COMMIT}" >> "$GITHUB_ENV"
         fi
         if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
           echo "Version already exists no release needed"
