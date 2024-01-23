@@ -62,10 +62,8 @@ jobs:
           echo "Version already exists no release needed"
         else
           echo "New version available, starting release for ${TAG}"
-          echo "TAG=${TAG}" >> "${GITHUB_ENV}"
         fi
-        echo ${{ env.TAG }}
 
     - name: Release
       # uses: softprops/action-gh-release@v1
-      run: echo "We have a release"
+      run: echo "We have a release version $TAG"
