@@ -51,7 +51,7 @@ jobs:
       with:
        fetch-depth: 0
 
-    - name: Start ${{ matrix.channel }} release
+    - name: Determine version for ${{ matrix.channel }}
       run: |
         if [ ${{ matrix.channel }} = stable ]; then
           echo "TAG=v${VERSION}" >> "$GITHUB_ENV"
@@ -66,4 +66,10 @@ jobs:
 
     - name: Release
       # uses: softprops/action-gh-release@v1
-      run: echo "We have a release version $TAG"
+      run: |
+        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
+          echo "Version already exists no release needed"
+        else
+          echo "New version available, starting release for ${TAG}"
+        fi
+        echo "We have a release version $TAG"
