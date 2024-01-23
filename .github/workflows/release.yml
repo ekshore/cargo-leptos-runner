@@ -4,19 +4,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  strategy:
-    matrix:
-      channel: [ stable, nightly ]
-      include:
-      - channel: stable
-        version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
-      - channel: nightly
-        version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
-
   check-versions:
     name: Check Versions
     id: checkVersion
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        channel: [ stable, nightly ]
+      include:
+        - channel: stable
+          version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
+        - channel: nightly
+          version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
 
     steps:
     - name: Update rust toolchain
@@ -78,6 +78,7 @@ jobs:
     name: Release
     if: ${{ jobs.checkVersion.outputs.RELEASE }} == true
     runs-on: ubuntu-latest
+    needs: checkVersion
 
     steps:
     - name: Checkout
