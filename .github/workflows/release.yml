@@ -71,7 +71,7 @@ jobs:
         fi
 
     - name: Release
-      if: ${{ steps.checkTag.outputs.RELEASE }}
+      if: ${{ steps.checkTag.outputs.RELEASE }} == true
       run: echo "Release version $TAG"
       # uses: softprops/action-gh-release@v1
       # run: |
