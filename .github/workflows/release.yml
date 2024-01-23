@@ -66,6 +66,6 @@ jobs:
         fi
 
     - name: Release
+      if: "$TAG" != ""
       # uses: softprops/action-gh-release@v1
-      if: "$TAG"
       run: echo "We have a release"
