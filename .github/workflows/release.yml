@@ -3,18 +3,20 @@ name: Build images for releases
 on:
   workflow_dispatch:
 
+strategy:
+   matrix:
+     channel: [ stable, nightly ]
+     include:
+       - channel: stable
+         version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
+       - channel: nightly
+         version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
+
 jobs:
   check-versions:
     name: Check Versions
+    id: checkVersion
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        channel: [ stable, nightly ]
-        include:
-          - channel: stable
-            version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
-          - channel: nightly
-            version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
 
     steps:
     - name: Update rust toolchain
@@ -61,22 +63,22 @@ jobs:
       run: |
         if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
           echo "Version already exists no release needed"
-          echo "RELEASE=false" >> "$GITHUB_OUTPUT"
+          echo "RELEASE=false" >> "$GITHUB_ENV"
         else
           echo "New version available, starting release for ${TAG}"
-          echo "RELEASE=true" >> "$GITHUB_OUTPUT"
+          echo "RELEASE=true" >> "$GITHUB_ENV"
         fi
 
-    - name: Release
-      if: ${{ steps.checkTag.outputs.RELEASE != true }}
-      run: | 
-        echo "Does this even work ${{ steps.checkTag.outputs.RELEASE }}"
-        echo "Release version $TAG"
-      # uses: softprops/action-gh-release@v1
-      # run: |
-      #  if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
-      #    echo "Version already exists no release needed"
-      #  else
-      #    echo "New version available, starting release for ${TAG}"
-      #  fi
-      #  echo "We have a release version $TAG"
+    - name: Export job outputs
+      run: |
+        echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+        echo "RELEASE=$RELEASE" >> "$GITHUB_OUTPUT"
+
+  release:
+    name: Release
+    if: ${{ jobs.checkVersion.outputs.RELEASE }} == true
+    runs-on: ubuntu-latest
+
+  steps: 
+    - name: Checkout
+      use: actions/checkout@v4
