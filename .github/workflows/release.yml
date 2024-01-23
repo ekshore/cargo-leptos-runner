@@ -58,18 +58,15 @@ jobs:
         else 
           echo "TAG=v${VERSION}-${COMMIT}" >> "$GITHUB_ENV"
         fi
-        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
-          echo "Version already exists no release needed"
-        else
-          echo "New version available, starting release for ${TAG}"
-        fi
-
+       
     - name: Release
+      if: git show-ref --tags --verify --quiet "refs/tags/${TAG}";
+      run: echo "Release version $TAG"
       # uses: softprops/action-gh-release@v1
-      run: |
-        if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
-          echo "Version already exists no release needed"
-        else
-          echo "New version available, starting release for ${TAG}"
-        fi
-        echo "We have a release version $TAG"
+      # run: |
+      #  if git show-ref --tags --verify --quiet "refs/tags/${TAG}"; then
+      #    echo "Version already exists no release needed"
+      #  else
+      #    echo "New version available, starting release for ${TAG}"
+      #  fi
+      #  echo "We have a release version $TAG"
