@@ -15,6 +15,11 @@ jobs:
             version_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
           - channel: nightly
             version_pattern: '[0-9]+\.[0-9]+\.[0-9]+-nightly'
+    outputs:
+      RELEASE: ${{ steps.export.outputs.RELEASE }}
+      TAG: ${{ steps.export.outputs.TAG }}
+      NIGHTLY_RELEASE: ${{ steps.export.outputs.NIGHTLY_RELEASE }}
+      NIGHTLY_TAG: ${{ steps.export.outputs.NIGHTLY_TAG }}
 
     steps:
     - name: Update rust toolchain
@@ -68,6 +73,7 @@ jobs:
         fi
 
     - name: Export job outputs
+      id: export
       run: |
         if [ ${{ matrix.channel }} = stable ]; then
           echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
