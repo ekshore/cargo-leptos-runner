@@ -69,7 +69,7 @@ jobs:
 
     - name: Export job outputs
       run: |
-        if [ ${{ matrix.channel }} = stable ] then
+        if [ ${{ matrix.channel }} = stable ]; then
           echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
           echo "RELEASE=false" >> "$GITHUB_OUTPUT"
         else 
