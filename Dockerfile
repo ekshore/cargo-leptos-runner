@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ARG TOOLCHAIN="stable"
 
-LABEL org.opencontainers.image.source="https://github.com/ekshore/leptos-build-action"
+LABEL org.opencontainers.image.source="https://github.com/ekshore/cargo-leptos-runner"
 
 RUN apt-get update -y
 
