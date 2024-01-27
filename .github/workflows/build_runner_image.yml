@@ -13,18 +13,6 @@ on:
         required: true
         description: Version tag to use on this release
 
-  workflow_call:
-    inputs:
-      environment:
-        type: environment
-        required: true
-        description: Toolchain environment to build
-        default: stable
-      version:
-        type: string
-        required: true
-        description: Version tag to use on this release
-
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: cargo-leptos-runner-${{ inputs.environment }}
