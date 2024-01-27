@@ -74,8 +74,8 @@ jobs:
 
   release:
     name: Release
-    needs: check-version
-    if: ${{ needs.check-version.outputs.RELEASE }} == true
+    needs: check-versions
+    if: ${{ needs.check-versions.outputs.RELEASE }} == true
     runs-on: ubuntu-latest
 
     steps:
