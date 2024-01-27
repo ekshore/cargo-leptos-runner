@@ -95,15 +95,18 @@ jobs:
     steps:
     - name: Debug
       run: echo "${{ needs.check-versions.outputs.RELEASE }}"
+
     - name: Checkout
       uses: actions/checkout@v4
+
     - name: Create GitHub release
       uses: softprops/action-gh-release@v1
       with: 
         body: "This is a test release from stable"
         name: Test Release
-        tag_name: v0.0.1
+        tag_name: ${{ needs.check-versions.outputs.TAG }}
         prerelease: false
+
 
   release-nightly: 
     name: Release nightly
@@ -115,7 +118,17 @@ jobs:
       contents: write
 
     steps:
-      - name: Debug
-        run: echo "${{ needs.check-versions.outputs.NIGHTLY_RELEASE }}"
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Debug
+      run: echo "${{ needs.check-versions.outputs.NIGHTLY_RELEASE }}"
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+      with: 
+        body: "This is a test release from stable"
+        name: Test Release
+        tag_name: ${{ needs.check-versions.outputs.TAG }}
+        prerelease: true
+
