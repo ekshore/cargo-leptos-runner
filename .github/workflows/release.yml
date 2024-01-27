@@ -158,14 +158,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Create GitHub release
-      uses: softprops/action-gh-release@v1
-      with: 
-        body: "Rebuilding docker container to keep up with rust release"
-        name: Release for Rust version ${{ needs.check-versions.outputs.TAG }}
-        tag_name: ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
-        prerelease: true
-
     - name: Docker metadata
       id: meta
       uses: docker/metadata-action@v5
@@ -194,7 +186,7 @@ jobs:
     - name: Create GitHub release
       uses: softprops/action-gh-release@v1
       with: 
-        body: "This is a test release from stable"
-        name: Test Release
+        body: "Rebuilding docker container to keep up with rust release"
+        name: Release for Rust version ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
         tag_name: ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
         prerelease: true
