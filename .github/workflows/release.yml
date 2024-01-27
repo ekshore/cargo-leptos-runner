@@ -86,7 +86,7 @@ jobs:
   release-stable:
     name: Release stable
     needs: check-versions
-    if: ${{ needs.check-versions.outputs.RELEASE }}
+    if: ${{ needs.check-versions.outputs.RELEASE == 'true' }}
     runs-on: ubuntu-latest
     environment: stable
 
