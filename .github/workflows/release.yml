@@ -69,11 +69,16 @@ jobs:
 
     - name: Export job outputs
       run: |
-        echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
-        echo "RELEASE=$RELEASE" >> "$GITHUB_OUTPUT"
+        if [ ${{ matrix.channel }} = stable ] then
+          echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+          echo "RELEASE=false" >> "$GITHUB_OUTPUT"
+        else 
+          echo "NIGHTLY_TAG=$TAG" >> "$GITHUB_OUTPUT"
+          echo "NIGHTLY_RELEASE=$RELEASE" >> "$GITHUB_OUTPUT"
+        fi
 
-  release:
-    name: Release
+  release-stable:
+    name: Release stable
     needs: check-versions
     if: ${{ needs.check-versions.outputs.RELEASE }} == true
     runs-on: ubuntu-latest
@@ -81,3 +86,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+
+  release-nightly: 
+    name: Release nightly
+    needs: check-versions
+    if: ${{ needs.check-versions.outputs.NIGHTLY_RELEASE }} == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
