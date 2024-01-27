@@ -147,6 +147,10 @@ jobs:
     permissions:
       contents: write
 
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: cargo-leptos-runner-nightly
+
     steps:
     - name: Debug
       run: echo "${{ needs.check-versions.outputs.NIGHTLY_RELEASE }}"
@@ -161,4 +165,29 @@ jobs:
         name: Test Release
         tag_name: ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
         prerelease: true
+
+    - name: Log into container registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        build-args: |
+          TOOLCHAIN=nightly
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.lables }}
+
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+      with: 
+        body: "This is a test release from stable"
+        name: Test Release
+        tag_name: ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
+        prerelease: true
+
 
