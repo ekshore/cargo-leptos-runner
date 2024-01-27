@@ -84,6 +84,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Debug
+      run: echo "${{ needs.check-versions.outputs.RELEASE }}"
     - name: Checkout
       uses: actions/checkout@v4
 
