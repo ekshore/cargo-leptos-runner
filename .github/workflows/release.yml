@@ -92,12 +92,42 @@ jobs:
     permissions:
       contents: write
 
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: cargo-leptos-runner-stable
+
     steps:
     - name: Debug
       run: echo "${{ needs.check-versions.outputs.RELEASE }}"
 
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Docker metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/ekshore/${{ env.IMAGE_NAME }}
+        tags: |
+          type=semver,pattern={{version}}
+          type=raw,value=${{ needs.check-versions.outputs.TAG }},enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+
+
+    - name: Log into container registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        build-args: |
+          TOOLCHAIN=stable
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.lables }}
 
     - name: Create GitHub release
       uses: softprops/action-gh-release@v1
