@@ -77,7 +77,7 @@ jobs:
       run: |
         if [ ${{ matrix.channel }} = stable ]; then
           echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
-          echo "RELEASE=false" >> "$GITHUB_OUTPUT"
+          echo "RELEASE=$RELEASE" >> "$GITHUB_OUTPUT"
         else 
           echo "NIGHTLY_TAG=$TAG" >> "$GITHUB_OUTPUT"
           echo "NIGHTLY_RELEASE=$RELEASE" >> "$GITHUB_OUTPUT"
