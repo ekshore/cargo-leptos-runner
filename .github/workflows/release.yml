@@ -89,6 +89,8 @@ jobs:
     if: ${{ needs.check-versions.outputs.RELEASE == 'true' }}
     runs-on: ubuntu-latest
     environment: stable
+    permissions:
+      contents: write
 
     steps:
     - name: Debug
@@ -109,6 +111,8 @@ jobs:
     if: ${{ needs.check-versions.outputs.NIGHTLY_RELEASE == 'true' }}
     runs-on: ubuntu-latest
     environment: nightly
+    permissions:
+      contents: write
 
     steps:
       - name: Debug
