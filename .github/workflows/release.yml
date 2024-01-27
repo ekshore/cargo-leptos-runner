@@ -106,7 +106,7 @@ jobs:
   release-nightly: 
     name: Release nightly
     needs: check-versions
-    if: ${{ needs.check-versions.outputs.NIGHTLY_RELEASE == true }}
+    if: ${{ needs.check-versions.outputs.NIGHTLY_RELEASE == 'true' }}
     runs-on: ubuntu-latest
     environment: nightly
 
