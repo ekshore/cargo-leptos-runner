@@ -82,18 +82,27 @@ jobs:
     needs: check-versions
     if: ${{ needs.check-versions.outputs.RELEASE == true }}
     runs-on: ubuntu-latest
+    environment: stable
 
     steps:
     - name: Debug
       run: echo "${{ needs.check-versions.outputs.RELEASE }}"
     - name: Checkout
       uses: actions/checkout@v4
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+      with: 
+        body: "This is a test release from stable"
+        name: Test Release
+        tag_name: v0.0.1
+        prerelease: false
 
   release-nightly: 
     name: Release nightly
     needs: check-versions
     if: ${{ needs.check-versions.outputs.NIGHTLY_RELEASE == true }}
     runs-on: ubuntu-latest
+    environment: nightly
 
     steps:
       - name: Debug
