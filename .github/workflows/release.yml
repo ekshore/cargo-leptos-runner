@@ -129,6 +129,6 @@ jobs:
       with: 
         body: "This is a test release from stable"
         name: Test Release
-        tag_name: ${{ needs.check-versions.outputs.TAG }}
+        tag_name: ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
         prerelease: true
 
