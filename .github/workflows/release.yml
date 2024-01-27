@@ -71,7 +71,7 @@ jobs:
       run: |
         if [ ${{ matrix.channel }} = stable ]; then
           echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
-          echo "RELEASE=false" >> "$GITHUB_OUTPUT"
+          echo "RELEASE=$TAG" >> "$GITHUB_OUTPUT"
         else 
           echo "NIGHTLY_TAG=$TAG" >> "$GITHUB_OUTPUT"
           echo "NIGHTLY_RELEASE=$RELEASE" >> "$GITHUB_OUTPUT"
@@ -92,9 +92,11 @@ jobs:
   release-nightly: 
     name: Release nightly
     needs: check-versions
-    if: ${{ needs.check-versions.outputs.NIGHTLY_RELEASE }} == true
+    if: ${{ needs.check-versions.outputs.NIGHTLY_RELEASE == true }}
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug
+        run: echo "${{ needs.check-versions.outputs.NIGHTLY_RELEASE }}"
       - name: Checkout
         uses: actions/checkout@v4
