@@ -134,7 +134,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with: 
         body: "Rebuilding docker container to keep up with rust release."
-        name: Release for Rust version ${{ needs.check-versions.outputs.TAG }}
+        name: Release ${{ needs.check-versions.outputs.TAG }}
         tag_name: ${{ needs.check-versions.outputs.TAG }}
         prerelease: false
 
@@ -187,6 +187,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       with: 
         body: "Rebuilding docker container to keep up with rust release"
-        name: Release for Rust version ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
+        name: Release ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
         tag_name: ${{ needs.check-versions.outputs.NIGHTLY_TAG }}
         prerelease: true
