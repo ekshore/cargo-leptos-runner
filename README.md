@@ -1,5 +1,5 @@
 # Cargo Leptos Runner
-cargo-leptos-runner is a container image to run CI integrations in for cargo-leptos projects.
+cargo-leptos-runner is a container image to run CI jobs for cargo-leptos projects.
 
 ## Usage
 The current usage is pretty bare bones. The image just has the most recent version of cargo leptos installed, for the appropriate toolchain.
