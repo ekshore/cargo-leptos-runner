@@ -111,8 +111,8 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/ekshore/${{ env.IMAGE_NAME }}
         tags: |
-          type=semver,pattern={{version}}
           type=raw,value=${{ needs.check-versions.outputs.TAG }},enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+          type=raw,value=latest,enabled-true
 
     - name: Log into container registry
       uses: docker/login-action@v3
@@ -164,8 +164,8 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/ekshore/${{ env.IMAGE_NAME }}
         tags: |
-          type=semver,pattern={{version}}
           type=raw,value=${{ needs.check-versions.outputs.NIGHTLY_TAG }},enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+          type=raw,value=latest,enabled-true
 
     - name: Log into container registry
       uses: docker/login-action@v3
