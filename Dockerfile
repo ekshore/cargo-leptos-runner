@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM ubuntu:plucky
 
 ARG TOOLCHAIN="stable"
 
