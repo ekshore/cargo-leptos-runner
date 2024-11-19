@@ -129,6 +129,7 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.lables }}
+        platforms: liunx/arm64,linux/amd64
 
     - name: Create GitHub release
       uses: softprops/action-gh-release@v1
@@ -182,6 +183,7 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.lables }}
+        platforms: liunx/arm64,linux/amd64
 
     - name: Create GitHub release
       uses: softprops/action-gh-release@v1
