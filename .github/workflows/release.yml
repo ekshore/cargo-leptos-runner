@@ -104,7 +104,7 @@ jobs:
 
     - name: Docker Setup
       uses: crazy-max/ghaction-setup-docker@v3
-      with: |
+      with:
         daemon-config: |
           {
             "debug": true,
@@ -172,7 +172,7 @@ jobs:
 
     - name: Docker Setup
       uses: crazy-max/ghaction-setup-docker@v3
-      with: |
+      with:
         daemon-config: |
           {
             "debug": true,
