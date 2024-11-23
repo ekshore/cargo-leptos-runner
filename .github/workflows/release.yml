@@ -102,6 +102,20 @@ jobs:
     - name: Debug
       run: echo "${{ needs.check-versions.outputs.RELEASE }}"
 
+    - name: Docker Setup
+      uses: crazy-max/ghaction-setup-docker@v3
+      with: |
+        daemon-config: |
+          {
+            "debug": true,
+            "features": {
+              "containerd-snapshotter": true
+            }
+          }
+
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v3
+
     - name: Checkout
       uses: actions/checkout@v4
 
@@ -127,6 +141,7 @@ jobs:
         build-args: |
           TOOLCHAIN=stable
         push: true
+        platforms: linux/amd64,linux/arm64
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.lables }}
 
@@ -155,6 +170,20 @@ jobs:
     - name: Debug
       run: echo "${{ needs.check-versions.outputs.NIGHTLY_RELEASE }}"
 
+    - name: Docker Setup
+      uses: crazy-max/ghaction-setup-docker@v3
+      with: |
+        daemon-config: |
+          {
+            "debug": true,
+            "features": {
+              "containerd-snapshotter": true
+            }
+          }
+
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v3
+
     - name: Checkout
       uses: actions/checkout@v4
 
@@ -175,11 +204,12 @@ jobs:
         password: ${{ secrets.CONTAINER_REGISTRY_TOKEN }}
 
     - name: Build and push
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         build-args: |
           TOOLCHAIN=nightly
         push: true
+        platforms: linux/amd64,linux/arm64
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.lables }}
 
